@@ -70,4 +70,34 @@ public class MoviesRepository {
             throw new IllegalStateException("Cannot connect to movies!",sqlException);
         }
     }
+
+    public double getMovieAvgRating (String title){
+        try(Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "select avg(rating) as calculated_avg from ratings join movies on movies.id = ratings.movie_id where movies.title = ?"
+        )){
+            statement.setString(1, title);
+
+            try (ResultSet resultSet = statement.executeQuery()){
+                if(resultSet.next()){
+                    return resultSet.getDouble("calculated_avg");
+                }
+                throw new IllegalArgumentException("Cannot find movie");
+            }
+        } catch (SQLException sqlException){
+            throw new IllegalStateException("Cannot query", sqlException);
+        }
+    }
+
+    public void updateMovieAvgRating(String title, double avg){
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement("update movies set avg_rating = ? where title = ?")){
+            statement.setDouble(1, avg);
+            statement.setString(2, title);
+            statement.executeUpdate();
+
+        } catch (SQLException sqlException){
+            throw new IllegalStateException("Cannot update", sqlException);
+        }
+    }
 }

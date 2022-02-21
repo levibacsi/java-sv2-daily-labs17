@@ -37,12 +37,10 @@ public class Main {
 
         MoviesRatingService moviesRatingService = new MoviesRatingService(moviesRepository, new RatingsRepository(dataSource));
         moviesRatingService.addRatings("Star Wars", 3, 4, 5);
-        moviesRatingService.addRatings("Blade Runner", 5, 5);
-        moviesRatingService.addRatings("Blade Runner", 1, 5);
+        moviesRatingService.addRatings("Blade Runner", 5, 5, 1, 3, 5);
 
         RatingsRepository ratingsRepository = new RatingsRepository(dataSource);
 
-
+        ActorsMoviesService actorsMoviesService = new ActorsMoviesService(actorsRepository, moviesRepository, actorsMoviesRepository);
     }
-
 }

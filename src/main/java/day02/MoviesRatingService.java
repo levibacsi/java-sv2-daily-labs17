@@ -18,9 +18,15 @@ public class MoviesRatingService {
 
         if (actualMovie.isPresent()) {
             ratingsRepository.insertRating(actualMovie.get().getId(), Arrays.asList(ratings));
+            updateAvgRatingByTitle(title);
 
         } else {
             throw new IllegalArgumentException("Cannot find movie: " + title);
         }
+    }
+
+    public void updateAvgRatingByTitle(String title){
+        double avg = moviesRepository.getMovieAvgRating(title);
+        moviesRepository.updateMovieAvgRating(title, avg);
     }
 }

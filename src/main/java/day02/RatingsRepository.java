@@ -56,16 +56,4 @@ public class RatingsRepository {
         }
         return ratingByMovie;
     }
-
-    public int insertAvgRating(long movieId, double avgRating) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("update `movies-actors`.`movies` SET `avg_rating`= (?) where `id`= (?)")) {
-                    stmt.setLong(1, movieId);
-                    stmt.setDouble(2, avgRating);
-                    stmt.executeUpdate();
-                    return 1;
-        } catch (SQLException sqlException) {
-            throw new IllegalStateException("Cannot connect to ratings!", sqlException);
-        }
-    }
 }
